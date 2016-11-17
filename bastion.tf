@@ -1,46 +1,22 @@
-resource "aws_instance" "bastion" {
+module "bastion" {
 
-  /* set the initial key for the instance */
-  key_name = "${var.keypair}"
+  source = "github.com/kpeder/mod_tf_aws_bastion"
 
-  /* select the appropriate AMI */
-  ami = "${lookup(var.bastion, var.region["primary"])}"
+  keypair = "${var.keypair}"
+  region = "${var.region["primary"]}"
+  workstation_cidr = "${var.workstation_cidr}"
 
-  /* specify the instance type for the role */
-  instance_type = "${var.bastion["type"]}"
-
-  /* specify the availability zone for the instance */
-  subnet_id = "${element(module.vpc.public_subnets, 0)}"
-
-  /* specify multiples security groups to the instance */
-  vpc_security_group_ids = [ "${module.vpc.default_security_group_id}", "${aws_security_group.bastion.id}" ]
-
-  /* the root (OS) volume. delete the volume on termination */
-  root_block_device {
-    delete_on_termination = "${var.bastion["delonterm"]}"
-    volume_size = "${var.bastion["volsize"]}"
-  }
-
-  /* determine whether to deploy this resource */
-  count = "${var.bastion["deploy"]}"
-
-}
-
-resource "aws_security_group" "bastion" {
-  name   = "bastion-inbound-sg-tf"
+  public_subnets = "${module.vpc.public_subnets}"
+  vpc_security_group_ids = "${module.vpc.public_subnets}"
   vpc_id = "${module.vpc.vpc_id}"
-}
 
-resource "aws_security_group_rule" "ingress_ssh" {
-  type              = "ingress"
-  from_port         = 22
-  to_port           = 22
-  protocol          = "tcp"
-  cidr_blocks       = ["${var.workstation_cidr}"]
-  security_group_id = "${aws_security_group.bastion.id}"
+  type = "${var.bastion["type"]}"
+  delonterm = "${var.bastion["delonterm"]}"
+  volsize = "${var.bastion["volsize"]}"
+
 }
 
 output "bastion_dns" {
-  value = "${aws_instance.bastion.public_dns}"
+  value = "${module.bastion.bastion_dns}"
 }
 
