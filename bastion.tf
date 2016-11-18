@@ -6,8 +6,9 @@ module "bastion" {
   region = "${var.region["primary"]}"
   workstation_cidr = "${var.workstation_cidr}"
 
+  #module glue, for vpc module
   public_subnets = "${module.vpc.public_subnets}"
-  vpc_security_group_ids = "${module.vpc.public_subnets}"
+  vpc_security_group_id = "${module.vpc.default_security_group_id}"
   vpc_id = "${module.vpc.vpc_id}"
 
   type = "${var.bastion["type"]}"
