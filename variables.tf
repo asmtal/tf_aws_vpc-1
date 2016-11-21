@@ -19,7 +19,6 @@ variable bastion {
     "type"      = "t2.micro"
     "delonterm" = true
     "volsize"   = 40
-    "deploy"    = true
   }
 }
 
