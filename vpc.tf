@@ -1,16 +1,16 @@
 module "vpc" {
   source = "github.com/terraform-community-modules/tf_aws_vpc"
 
-  name = "tf-vpc-testbed"
+  name = "${var.vpc_name}"
 
-  cidr = "10.42.0.0/16"
-  private_subnets = ["10.42.1.0/24", "10.42.2.0/24", "10.42.3.0/24"]
-  public_subnets  = ["10.42.101.0/24"]
+  cidr = "${var.cidr}" 
+  private_subnets = "${var.private_subnets}"
+  public_subnets  = "${var.public_subnets}"
 
-  enable_dns_support = "true"
-  map_public_ip_on_launch = "true"
-  enable_dns_hostnames = "true"
-  enable_nat_gateway = "true"
+  enable_dns_support = "${var.enable_dns_support}"
+  map_public_ip_on_launch = "${var.map_public_ip_on_launch}"
+  enable_dns_hostnames = "${var.enable_dns_hostnames}"
+  enable_nat_gateway = "${var.enable_nat_gateway}"
 
   azs      = ["${var.region["primary"]}a", "${var.region["primary"]}b", "${var.region["primary"]}c"]
 }
