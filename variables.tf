@@ -9,6 +9,15 @@ variable region {
   }
 }
 
+variable availability_zones {
+  type = "map"
+
+  default = {
+    "us-east-1" = "us-east-1a,us-east-1b,us-east-1c"
+    "us-west-2" = "us-west-2a,us-west-2b,us-west-2c"
+  }
+}
+
 variable workstation_cidr {}
 
 #Bastion module input variables

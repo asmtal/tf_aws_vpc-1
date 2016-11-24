@@ -12,7 +12,7 @@ module "vpc" {
   enable_dns_hostnames = "${var.enable_dns_hostnames}"
   enable_nat_gateway = "${var.enable_nat_gateway}"
 
-  azs      = ["${var.region["primary"]}a", "${var.region["primary"]}b", "${var.region["primary"]}c"]
+  azs      = ["${split(",", lookup(var.availability_zones, var.region["primary"]))}"]
 }
 
 output "private_subnets" {
