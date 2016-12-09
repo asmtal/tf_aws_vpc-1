@@ -4,6 +4,7 @@
 - see variables.tf for root configuration inputs
 - see vpc.tf for vpc module configuration inputs
 - see bastion.tf for bastion module configuration inputs
+- see databse.tf for RDS subnet group configuration (not a module)
 - variables required for deployment (in env vars, on command line or in terraform.tfvars, as here):
 
     [kpedersen@kpedzbox tf_aws_vpc]$ cat terraform.tfvars<br>
